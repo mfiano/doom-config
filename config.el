@@ -1,9 +1,8 @@
 (setq default-input-method "TeX"
       delete-trailing-lines t
       display-line-numbers-type t
-      doom-big-font (font-spec :family "Iosevka Slab" :size 34)
-      doom-font (font-spec :family "Iosevka Slab" :size 22)
-      doom-scratch-initial-major-mode t
+      doom-big-font (font-spec :family "Iosevka Slab" :size 18)
+      doom-font (font-spec :family "Iosevka Slab" :size 14)
       doom-theme 'doom-one
       echo-keystrokes 0.1
       focus-follows-mouse t
@@ -12,8 +11,10 @@
       mouse-autoselect-window t
       mouse-wheel-follow-mouse t
       mouse-wheel-progressive-speed nil
+      mouse-wheel-scroll-amount '(3)
       mouse-yank-at-point t
       org-directory "~/Projects/Org/"
+      select-enable-primary t
       user-full-name "Michael Fiano"
       user-mail-address "mail@michaelfiano.com"
       vc-follow-symlinks t)
@@ -33,21 +34,10 @@
               truncate-lines t)
 
 (setq mfiano/lisp-implementations
-      '((sbcl ("ros" "dynamic-space-size=4000" "-L" "sbcl" "run"))
+      '((sbcl ("ros" "dynamic-space-size=8000" "-L" "sbcl" "run"))
         (sbcl-renderdoc ("renderdoccmd" "capture" "-w" "--opt-api-validation"
                          "ros" "dynamic-space-size=4000" "-L" "sbcl" "run"))
         (ccl ("ros" "-L" "ccl-bin" "run"))))
-
-(defvar +default-minibuffer-maps
-  `(minibuffer-local-map
-    minibuffer-local-ns-map
-    minibuffer-local-completion-map
-    minibuffer-local-must-match-map
-    minibuffer-local-isearch-map
-    read-expression-map
-    ,@(when (featurep! :completion ivy)
-        '(ivy-minibuffer-map
-          ivy-switch-buffer-map))))
 
 ;;; Builtin Doom packages
 
@@ -59,13 +49,12 @@
   (after! company
     (setq company-idle-delay nil)))
 
-;; TODO: This feature is disabled in init.el for now until the flicker bug is
-;; resolved upstream.
 (when (featurep! :ui tabs)
   (after! centaur-tabs
     (setq centaur-tabs-style "alternate"
           centaur-tabs-height 40
-          centaur-tabs-set-bar nil)
+          centaur-tabs-set-bar nil
+          centaur-tabs-set-icons t)
     (centaur-tabs-group-by-projectile-project)))
 
 (after! eldoc
@@ -91,7 +80,9 @@
     (setq sly-lisp-implementations mfiano/lisp-implementations
           sly-autodoc-use-multiline t
           sly-complete-symbol-function 'sly-flex-completions)
-    (add-to-list 'company-backends '(company-capf company-files))))
+    (add-to-list 'company-backends '(company-capf company-files))
+    (set-popup-rule! "^\\*sly-mrepl"
+      :vslot 2 :side 'bottom :size 0.25 :quit nil :ttl nil)))
 
 (after! persp-mode
   (setq persp-auto-save-opt 0))
@@ -106,6 +97,7 @@
         sp-navigate-consider-sgml-tags nil)
   (sp-pair "'" nil :actions :rem)
   (sp-pair "`" nil :actions :rem)
+  (sp-pair "(" nil :unless '(:rem sp-point-before-word-p))
   (smartparens-global-strict-mode 1))
 
 (after! which-key

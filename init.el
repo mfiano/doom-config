@@ -9,7 +9,7 @@
 
        :completion
        (company +tng)
-       (ivy +prescient +icons)
+       (ivy +icons +prescient)
 
        :editor
        (evil +everywhere)
@@ -23,17 +23,13 @@
        vc
 
        :lang
-       clojure
        common-lisp
        data
        emacs-lisp
        javascript
        latex
        markdown
-       nim
        (org +dragndrop +gnuplot +pandoc +present)
-       python
-       rust
        sh
        web
 
@@ -54,8 +50,11 @@
        nav-flash
        neotree
        ophints
-       (popup +all +defaults)
+       (popup +defaults +all)
        tabs
        vc-gutter
        (window-select +numbers)
-       workspaces)
+       workspaces
+
+       :config
+       (default +smartparens))
