@@ -91,6 +91,7 @@
   (:unless (featurep! :ui workspaces)
    :desc "Switch buffer" "b" #'switch-to-buffer)
   :desc "Delete" "d" #'kill-current-buffer
+  :desc "Narrow" "n" #'doom/toggle-narrow-buffer
   :desc "Revert" "r" #'revert-buffer)
  (:prefix-map ("f" . "file")
   :desc "Copy" "c" #'doom/copy-this-file

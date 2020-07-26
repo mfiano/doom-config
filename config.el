@@ -1,8 +1,8 @@
 (setq default-input-method "TeX"
       delete-trailing-lines t
       display-line-numbers-type t
-      doom-big-font (font-spec :family "Iosevka Slab" :size 18)
-      doom-font (font-spec :family "Iosevka Slab" :size 14)
+      doom-big-font (font-spec :family "Iosevka Slab" :size 30)
+      doom-font (font-spec :family "Iosevka Slab" :size 22)
       doom-theme 'doom-one
       echo-keystrokes 0.1
       focus-follows-mouse t
@@ -48,14 +48,6 @@
 (when (featurep! :completion company)
   (after! company
     (setq company-idle-delay nil)))
-
-(when (featurep! :ui tabs)
-  (after! centaur-tabs
-    (setq centaur-tabs-style "alternate"
-          centaur-tabs-height 40
-          centaur-tabs-set-bar nil
-          centaur-tabs-set-icons t)
-    (centaur-tabs-group-by-projectile-project)))
 
 (after! eldoc
   (setq eldoc-idle-delay 0.1))
@@ -108,7 +100,19 @@
 ;;; Additional packages
 
 (use-package! aggressive-indent
-  :config (add-hook! prog-mode (aggressive-indent-mode 1)))
+  :config
+  (add-hook! prog-mode (aggressive-indent-mode 1))
+  ;; HACK: Get timer to shut up and die when deleting a file sometimes.
+  (defadvice! do-your-job-dammit (l r &rest _)
+    :override #'aggressive-indent--keep-track-of-changes
+    (when aggressive-indent-mode
+      (push (list l r) aggressive-indent--changed-list)
+      (when (timerp aggressive-indent--idle-timer)
+        (cancel-timer aggressive-indent--idle-timer))
+      (setq aggressive-indent--idle-timer
+            (run-with-idle-timer aggressive-indent-sit-for-time nil
+                                 #'aggressive-indent--indent-if-changed
+                                 (current-buffer))))))
 
 (use-package! evil-cleverparens
   :init
@@ -120,9 +124,26 @@
   (after! sly
     (add-hook! sly-mrepl-mode #'evil-cleverparens-mode)))
 
+(use-package! hungry-delete
+  :config
+  (after! smartparens
+    (global-hungry-delete-mode)
+    (add-hook! smartparens-enabled-hook #'hungry-delete-mode)))
+
 (use-package! whitespace-cleanup-mode
   :init (global-whitespace-cleanup-mode 1)
   :config (add-hook! before-save #'delete-trailing-whitespace))
+
+;;; Hacks
+
+;; ivy-resume no longer refreshes contents if file on disk differs since last
+;; call when searching across a buffer/project. This attempts to fix that.
+(defadvice! refresh-on-ivy-resume (orig-fn &rest args)
+  :around #'ivy--reset-state
+  (let ((this-command this-command))
+    (when (eq this-command 'ivy-resume)
+      (setq this-command nil))
+    (apply orig-fn args)))
 
 ;;; Includes
 

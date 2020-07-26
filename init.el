@@ -29,7 +29,7 @@
        javascript
        latex
        markdown
-       (org +dragndrop +gnuplot +pandoc +present)
+       (org +dragndrop +pandoc +present)
        sh
        web
 
@@ -51,7 +51,6 @@
        neotree
        ophints
        (popup +defaults +all)
-       tabs
        vc-gutter
        (window-select +numbers)
        workspaces
