@@ -1,7 +1,3 @@
-(package! aggressive-indent-mode
-  :recipe (:host github :repo "Malabarba/aggressive-indent-mode")
-  :pin "12a64b4e5c1a1e124baa74336738b6ae1972607f")
-
 (package! evil-cleverparens
   :recipe (:host github :repo "luxbock/evil-cleverparens")
   :pin "8c45879d49bfa6d4e414b6c1df700a4a51cbb869")
