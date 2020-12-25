@@ -63,6 +63,7 @@
 (when (featurep! :tools magit)
   (after! magit
     (magit-wip-mode)
+    (magit-todos-mode)
     (setq magit-log-arguments '("--graph" "--decorate" "--color")
           magit-delete-by-moving-to-trash nil
           git-commit-summary-max-length 120)))
@@ -71,7 +72,8 @@
   (after! sly
     (setq sly-lisp-implementations mfiano/lisp-implementations
           sly-autodoc-use-multiline t
-          sly-complete-symbol-function 'sly-flex-completions)
+          sly-complete-symbol-function 'sly-flex-completions
+          sly-enable-evaluate-in-emacs t)
     (add-to-list 'company-backends '(company-capf company-files))
     (set-popup-rule! "^\\*sly-mrepl"
       :vslot 2 :side 'bottom :size 0.25 :quit nil :ttl nil)))
@@ -91,6 +93,9 @@
   (sp-pair "`" nil :actions :rem)
   (sp-pair "(" nil :unless '(:rem sp-point-before-word-p))
   (smartparens-global-strict-mode 1))
+
+(after! web-mode
+  (setq web-mode-markup-indent-offset 2))
 
 (after! which-key
   (setq which-key-sort-order 'which-key-key-order-alpha

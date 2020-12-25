@@ -20,6 +20,7 @@
        (dired +ranger +icons)
        electric
        (ibuffer +icons)
+       (undo +tree)
        vc
 
        :lang
