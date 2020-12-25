@@ -104,21 +104,6 @@
 
 ;;; Additional packages
 
-(use-package! aggressive-indent
-  :config
-  (add-hook! prog-mode (aggressive-indent-mode 1))
-  ;; HACK: Get timer to shut up and die when deleting a file sometimes.
-  (defadvice! do-your-job-dammit (l r &rest _)
-    :override #'aggressive-indent--keep-track-of-changes
-    (when aggressive-indent-mode
-      (push (list l r) aggressive-indent--changed-list)
-      (when (timerp aggressive-indent--idle-timer)
-        (cancel-timer aggressive-indent--idle-timer))
-      (setq aggressive-indent--idle-timer
-            (run-with-idle-timer aggressive-indent-sit-for-time nil
-                                 #'aggressive-indent--indent-if-changed
-                                 (current-buffer))))))
-
 (use-package! evil-cleverparens
   :init
   (setq evil-move-beyond-eol t
