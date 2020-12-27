@@ -12,7 +12,7 @@
 
 (package! sly
   :recipe (:host github :repo "joaotavora/sly")
-  :pin "0207e2d2fa138537dc973a986218af69ee7cd586")
+  :pin "613f597ecf72eb5719d4e13a4bfdbeb91373bf09")
 
 (package! whitespace-cleanup-mode
   :recipe (:host github :repo "purcell/whitespace-cleanup-mode")

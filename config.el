@@ -103,6 +103,9 @@
         which-key-idle-secondary-delay 0.25))
 
 ;;; Additional packages
+(use-package! aggressive-indent
+  :config
+  (add-hook! prog-mode (aggressive-indent-mode 1)))
 
 (use-package! evil-cleverparens
   :init
