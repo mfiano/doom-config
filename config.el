@@ -118,6 +118,7 @@
     (add-hook! sly-mrepl-mode #'evil-cleverparens-mode)))
 
 (use-package! hungry-delete
+  :init (setq hungry-delete-join-reluctantly t)
   :config
   (after! smartparens
     (global-hungry-delete-mode)
