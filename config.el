@@ -24,7 +24,7 @@
               backup-inhibited t
               buffer-file-coding-system 'utf-8
               create-lockfiles nil
-              fill-column 80
+              fill-column 100
               find-file-visit-truename t
               indent-tabs-mode nil
               indicate-empty-lines t
