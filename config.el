@@ -64,8 +64,14 @@
   (after! magit
     (magit-wip-mode)
     (magit-todos-mode)
-    (setq magit-log-arguments '("--graph" "--decorate" "--color")
+    (setq)
+    (setq transient-values '((magit-log:magit-log-mode "--graph" "--color" "--decorate"))
+          magit-log-auto-more t
+          magit-log-margin-show-committer-date t
           magit-delete-by-moving-to-trash nil
+          magit-wip-after-save-mode t
+          magit-wip-after-apply-mode t
+          magit-wip-before-change-mode t
           git-commit-summary-max-length 120)))
 
 (when (featurep! :lang common-lisp)
