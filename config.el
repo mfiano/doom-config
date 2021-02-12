@@ -36,7 +36,7 @@
 (setq mfiano/lisp-implementations
       '((sbcl ("ros" "dynamic-space-size=8000" "-L" "sbcl" "run"))
         (sbcl-renderdoc ("renderdoccmd" "capture" "-w" "--opt-api-validation"
-                         "ros" "dynamic-space-size=4000" "-L" "sbcl" "run"))
+                         "ros" "dynamic-space-size=8000" "-L" "sbcl" "run"))
         (ccl ("ros" "-L" "ccl-bin" "run"))))
 
 ;;; Builtin Doom packages
